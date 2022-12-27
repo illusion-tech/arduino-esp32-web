@@ -7,7 +7,7 @@ export class Signer {
   #key: string;
   #secret: string;
 
-  #getTime() {
+  #getTime(): string {
     const twoChar = (n: number) => (n > 10 ? n.toString() : `0${n}`);
     const date = new Date();
     const year = date.getUTCFullYear();
@@ -22,7 +22,7 @@ export class Signer {
 
   #signedHeaders(headers: Headers): string[] {
     const keys: string[] = [];
-    headers.forEach((value, key) => {
+    headers.forEach((_, key) => {
       keys.push(key.toLowerCase());
     });
 
@@ -65,7 +65,10 @@ export class Signer {
     return headers.join("\n") + "\n";
   }
 
-  async #canonicalRequest(request: Request, signedHeaders: string[]): Promise<string> {
+  async #canonicalRequest(
+    request: Request,
+    signedHeaders: string[],
+  ): Promise<string> {
     let hexEncode = request.headers.get(HEADER_CONTENT_SHA256);
     if (hexEncode === null) {
       const data = await request.arrayBuffer();
@@ -74,23 +77,26 @@ export class Signer {
 
     // rome-ignore format:
     return (
-      request.method 								 + "\n" +
-      this.#canonicalURL(request)                    + "\n" +
-      this.#canonicalQueryString(request)            + "\n" +
+      request.method + "\n" +
+      this.#canonicalURL(request) + "\n" +
+      this.#canonicalQueryString(request) + "\n" +
       this.#canonicalHeaders(request, signedHeaders) + "\n" +
-      signedHeaders.join(";")                        + "\n" +
+      signedHeaders.join(";") + "\n" +
       hexEncode
     );
   }
 
-  async #stringToSign(data: string, time: string) {
+  async #stringToSign(data: string, time: string): Promise<string> {
     const encoder = new TextEncoder();
     const hash = await this.#hexEncodeSHA256Hash(encoder.encode(data));
 
     return `${ALGORITHM}\n${time}\n${hash}`;
   }
 
-  async #signStringToSign(stringToSign: string, signingKey: string) {
+  async #signStringToSign(
+    stringToSign: string,
+    signingKey: string,
+  ): Promise<string> {
     const encoder = new TextEncoder();
     const key = await crypto.subtle.importKey(
       "raw",
@@ -100,12 +106,20 @@ export class Signer {
       ["sign"],
     );
 
-    const signBuffer = await crypto.subtle.sign("HMAC", key, encoder.encode(stringToSign));
+    const signBuffer = await crypto.subtle.sign(
+      "HMAC",
+      key,
+      encoder.encode(stringToSign),
+    );
 
     return this.#bufferToHex(signBuffer);
   }
 
-  #authHeaderValue(signature: string, key: string, signedHeaders: string[]): string {
+  #authHeaderValue(
+    signature: string,
+    key: string,
+    signedHeaders: string[],
+  ): string {
     const signedHeadersString = signedHeaders.join(";");
     return `${ALGORITHM} Access=${key}, SignedHeaders=${signedHeadersString}, Signature=${signature}`;
   }
@@ -115,7 +129,7 @@ export class Signer {
     this.#secret = secret;
   }
 
-  async sign(request: Request) {
+  async sign(request: Request): Promise<void> {
     let headerTime = request.headers.get(HEADER_X_DATE);
 
     if (headerTime === null) {
@@ -124,11 +138,17 @@ export class Signer {
     }
 
     const signedHeaders = this.#signedHeaders(request.headers);
-    const canonicalRequest = await this.#canonicalRequest(request, signedHeaders);
+    const canonicalRequest = await this.#canonicalRequest(
+      request,
+      signedHeaders,
+    );
     const stringToSign = await this.#stringToSign(canonicalRequest, headerTime);
     const signature = await this.#signStringToSign(stringToSign, this.#secret);
 
-    request.headers.set(HEADER_AUTHORIZATION, this.#authHeaderValue(signature, this.#key, signedHeaders));
+    request.headers.set(
+      HEADER_AUTHORIZATION,
+      this.#authHeaderValue(signature, this.#key, signedHeaders),
+    );
 
     console.log(request);
   }
