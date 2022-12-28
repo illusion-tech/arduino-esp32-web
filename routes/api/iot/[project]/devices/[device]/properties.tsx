@@ -27,7 +27,11 @@ export const handler: Handlers<null> = {
 
     const data = (await response.json()).shadow[0].reported.properties;
     console.log(data);
-    return ctx.render(data);
+    return new Promise<Response>((resolve, reject) => {
+      resolve(new Response(JSON.stringify(data), {
+        headers: { "Content-Type": "application/json" },
+      }));
+    });
   },
 };
 
