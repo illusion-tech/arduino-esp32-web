@@ -149,7 +149,5 @@ export class Signer {
       HEADER_AUTHORIZATION,
       this.#authHeaderValue(signature, this.#key, signedHeaders),
     );
-
-    console.log(request);
   }
 }

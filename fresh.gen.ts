@@ -5,19 +5,19 @@
 import config from "./deno.json" assert { type: "json" };
 import * as $0 from "./routes/api/iot/[project]/devices/[device]/properties.tsx";
 import * as $1 from "./routes/api/iot/tools/signer.ts";
-import * as $2 from "./routes/index.tsx";
+import * as $2 from "./routes/chart.tsx";
+import * as $3 from "./routes/index.tsx";
 import * as $$0 from "./islands/Device.tsx";
-import * as $$1 from "./islands/SignIn.tsx";
 
 const manifest = {
   routes: {
     "./routes/api/iot/[project]/devices/[device]/properties.tsx": $0,
     "./routes/api/iot/tools/signer.ts": $1,
-    "./routes/index.tsx": $2,
+    "./routes/chart.tsx": $2,
+    "./routes/index.tsx": $3,
   },
   islands: {
     "./islands/Device.tsx": $$0,
-    "./islands/SignIn.tsx": $$1,
   },
   baseUrl: import.meta.url,
   config,
