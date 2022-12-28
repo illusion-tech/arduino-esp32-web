@@ -34,16 +34,3 @@ export const handler: Handlers<null> = {
     });
   },
 };
-
-export default function Page({ data }: PageProps<any | null>) {
-  if (!data) {
-    return <h1>Properties not found</h1>;
-  }
-
-  return (
-    <div>
-      <h1>温度: {data.Temperature}</h1>
-      <p>湿度：{data.Humidity}</p>
-    </div>
-  );
-}
