@@ -7,7 +7,9 @@ import * as $0 from "./routes/api/iot/[project]/devices/[device]/properties.ts";
 import * as $1 from "./routes/api/iot/aksk.ts";
 import * as $2 from "./routes/chart.tsx";
 import * as $3 from "./routes/index.tsx";
+import * as $4 from "./routes/sign.tsx";
 import * as $$0 from "./islands/Device.tsx";
+import * as $$1 from "./islands/SignForm.tsx";
 
 const manifest = {
   routes: {
@@ -15,9 +17,11 @@ const manifest = {
     "./routes/api/iot/aksk.ts": $1,
     "./routes/chart.tsx": $2,
     "./routes/index.tsx": $3,
+    "./routes/sign.tsx": $4,
   },
   islands: {
     "./islands/Device.tsx": $$0,
+    "./islands/SignForm.tsx": $$1,
   },
   baseUrl: import.meta.url,
   config,
