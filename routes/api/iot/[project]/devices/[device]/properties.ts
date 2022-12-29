@@ -1,7 +1,8 @@
 // deno-lint-ignore-file
 import { Handlers } from "$fresh/server.ts";
 import { DeviceProps } from "../../../../../../interface/device-props.ts";
-import { Signer } from '../../../tools/signer.ts';
+import { Signer } from "../../../../../../tools/signer.ts";
+
 
 //Set the AK/SK to sign and authenticate the request.
 const Key = "TM2ZMQVGYNMVAVPU2QLN";
