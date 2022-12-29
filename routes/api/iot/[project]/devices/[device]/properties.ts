@@ -1,6 +1,6 @@
 // deno-lint-ignore-file
 import { Handlers } from "$fresh/server.ts";
-import { DeviceProps } from "../../../../../../interface/device-props.ts";
+import { DeviceProps } from "../../../../../../interface/device-props.interface.ts";
 import { Signer } from "../../../../../../tools/signer.ts";
 
 
