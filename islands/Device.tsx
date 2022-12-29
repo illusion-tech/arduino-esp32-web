@@ -1,6 +1,6 @@
 import { useState, useEffect } from "preact/hooks";
-import { DeviceProps } from "../interface/device-props.ts";
-import { ChartData } from "../interface/chart-data.ts";
+import { DeviceProps } from "../interface/device-props.interface.ts";
+import { ChartData } from "../interface/chart-data.interface.ts";
 import Chart from "../components/Chart.tsx";
 
 const endpoint = "http://localhost:8000";
