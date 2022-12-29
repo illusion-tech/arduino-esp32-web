@@ -5,30 +5,57 @@ import { ChartColors, transparentize } from "$fresh_charts/utils.ts";
 export const handler: Handlers = {
   GET(req, cxt) {
     const url = new URL(req.url);
-    const temperature = url.searchParams.get("temperature");
-    const humidity = url.searchParams.get("humidity");
+    const temps = url.searchParams.get("temps") || "[]";
+    const hums = url.searchParams.get("hums") || "[]";
+    const labels = url.searchParams.get("labels") || "[]";
 
     return renderChart({
       type: "line",
       data: {
-        labels: ["1", "2", "3"],
+        labels: JSON.parse(labels),
         datasets: [{
           label: "温度",
-          data: [123, 234, 234],
+          data: JSON.parse(temps),
           borderColor: ChartColors.Green,
           backgroundColor: transparentize(ChartColors.Green, 0.5),
           borderWidth: 1,
+          yAxisID: "temperature",
         }, {
           label: "湿度",
-          data: [346, 233, 123],
+          data: JSON.parse(hums),
           borderColor: ChartColors.Blue,
           backgroundColor: transparentize(ChartColors.Blue, 0.5),
           borderWidth: 1,
+          yAxisID: "humidity",
         }],
       },
       options: {
-        devicePixelRatio: 1,
-        scales: { yAxes: [{ ticks: { beginAtZero: true } }] },
+        interaction: {
+          mode: "index",
+          intersect: false,
+        },
+        scales: {
+          temperature: {
+            type: "linear",
+            display: true,
+            position: "left",
+            title: {
+              display: true,
+              text: "温度 (℃)",
+              align: "end",
+            },
+          },
+          humidity: {
+            type: "linear",
+            display: true,
+            position: "right",
+            title: {
+              display: true,
+              text: "湿度 (%)",
+              align: "end",
+            },
+          },
+        },
       },
     });
   },

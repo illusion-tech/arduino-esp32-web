@@ -1,5 +1,6 @@
-import { useState } from "preact/hooks";
+import { useState, useEffect } from "preact/hooks";
 import { DeviceProps } from "../interface/device-props.ts";
+import { ChartData } from "../interface/chart-data.ts";
 import Chart from "../components/Chart.tsx";
 
 const endpoint = "http://localhost:8000";
@@ -58,6 +59,29 @@ export default function Device() {
   const [temperature, setTemperature] = useState(0);
   const [humidity, setHumidity] = useState(0);
 
+  // 图表数据集
+  const chartData: ChartData = {
+    labels: [],
+    temps: [],
+    hums: [],
+  };
+  const [chartUrl, setChartUrl] = useState("");
+
+  const stringify = (value: any) => {
+    return JSON.stringify(value);
+  };
+
+  // 更新图表数据
+  const updateDataSet = () => {
+    chartData.temps.push(temperature);
+    chartData.hums.push(humidity);
+    chartData.labels.push("");
+
+    const searchParams =
+      `labels=${stringify(chartData.labels)}&temps=${stringify(chartData.temps)}&hums=${stringify(chartData.hums)}`;
+    setChartUrl(`/chart?${searchParams}`);
+  };
+
   const setProperties = async () => {
     try {
       const resp = await fetch(`${endpoint}/api/iot/${projectId}/devices/${deviceId}/properties`);
@@ -65,14 +89,19 @@ export default function Device() {
 
       setTemperature(deviceProps.Temperature);
       setHumidity(deviceProps.Humidity);
+      updateDataSet();
     } catch (error) {
       console.error(error);
     }
   };
 
-  setProperties();
-  /** 定时获取设备属性 */
-  setInterval(async () => await setProperties(), 5000);
+  useEffect(() => {
+    setProperties();
+    const timer = setInterval(() => {
+      setProperties();
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [temperature, humidity]);
 
   return (
     <section className="p-10">
@@ -88,7 +117,7 @@ export default function Device() {
         </li>
       </ul>
       <div class="p-4 mx-auto max-w-screen-md">
-        <Chart />
+        <Chart url={chartUrl}/>
       </div>
     </section>
   );
