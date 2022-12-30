@@ -1,5 +1,5 @@
 /** 设备属性 */
-export interface DeviceProps {
+export interface IDeviceProps {
   /** 温度 */
   Temperature: number;
   /** 湿度 */

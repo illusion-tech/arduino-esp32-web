@@ -1,7 +1,7 @@
 import { useState, useEffect } from "preact/hooks";
-import { DeviceProps } from "../interface/device-props.interface.ts";
-import { ChartData } from "../interface/chart-data.interface.ts";
-import Chart from "../components/Chart.tsx";
+import { IDeviceProps } from "../interface/device-props.interface.ts";
+import { IChartData } from "../interface/chart-data.interface.ts";
+import Chart from "../components/chart.tsx";
 
 const endpoint = "http://localhost:8000";
 const projectId = "f6ec7524bd17497fafc9fa1ff8fdd8da";
@@ -12,7 +12,7 @@ export default function Device() {
   const [humidity, setHumidity] = useState(0);
 
   // 图表数据集
-  const chartData: ChartData = {
+  const chartData: IChartData = {
     labels: [],
     temps: [],
     hums: [],
@@ -37,7 +37,7 @@ export default function Device() {
   const setProperties = async () => {
     try {
       const resp = await fetch(`${endpoint}/api/iot/${projectId}/devices/${deviceId}/properties`);
-      const deviceProps: DeviceProps = await resp.json();
+      const deviceProps: IDeviceProps = await resp.json();
 
       setTemperature(deviceProps.Temperature);
       setHumidity(deviceProps.Humidity);

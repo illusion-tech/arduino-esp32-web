@@ -1,6 +1,6 @@
 // deno-lint-ignore-file
 import { Handlers } from "$fresh/server.ts";
-import { DeviceProps } from "../../../../../../interface/device-props.interface.ts";
+import { IDeviceProps } from "../../../../../../interface/device-props.interface.ts";
 import { Signer } from "../../../../../../tools/signer.ts";
 
 
@@ -26,7 +26,7 @@ export const handler: Handlers<null> = {
       return ctx.render(null);
     }
 
-    const data: DeviceProps = (await response.json()).shadow[0].reported.properties;
+    const data: IDeviceProps = (await response.json()).shadow[0].reported.properties;
     return new Promise<Response>((resolve, reject) => {
       resolve(new Response(JSON.stringify(data), {
         headers: { "Content-Type": "application/json" },

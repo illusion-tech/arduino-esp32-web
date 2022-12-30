@@ -1,5 +1,5 @@
 import { Head } from "$fresh/runtime.ts";
-import SignForm from "../islands/SignForm.tsx";
+import SignForm from "../islands/sign-form.tsx";
 
 export default function Sign() {
   return (

@@ -1,5 +1,5 @@
 import { Head } from "$fresh/runtime.ts";
-import Device from "../islands/Device.tsx";
+import Device from "../islands/device.tsx";
 
 export default function Home() {
   return (
