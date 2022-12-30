@@ -4,7 +4,6 @@ import { IAkSkMessages } from "../../../interface/ak-sk.interface.ts";
 export const handler: Handlers<null> = {
   async POST(req) {
     const fileData = await req.json();
-    console.log(JSON.stringify(fileData));
     await Deno.writeTextFile("./aksk.txt", JSON.stringify(fileData));
 
     return new Promise<Response>((resolve) => {
@@ -15,15 +14,26 @@ export const handler: Handlers<null> = {
       );
     });
   },
+
   async GET(_) {
-    const text = await Deno.readTextFile("aksk.txt");
-    const akMessage: IAkSkMessages = JSON.parse(text);
-    console.log(text);
+    let akMessage: IAkSkMessages;
+    try {
+      const text = await Deno.readTextFile("aksk.txt");
+      akMessage = JSON.parse(text);
+    } catch (error) {
+      console.error(error);
+    }
+
     return new Promise<Response>((resolve) => {
       resolve(
-        new Response(JSON.stringify(akMessage), {
-          headers: { "Content-Type": "application/json" },
-        }),
+        new Response(
+          akMessage
+            ? JSON.stringify({ success: true, value: akMessage })
+            : JSON.stringify({ success: false }),
+          {
+            headers: { "Content-Type": "application/json" },
+          },
+        ),
       );
     });
   },

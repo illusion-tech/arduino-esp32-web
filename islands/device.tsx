@@ -1,5 +1,5 @@
 // import ApexCharts, { ApexOptions } from "apexcharts";
-import Chart from "react-apexcharts";
+// import Chart from "react-apexcharts";
 import { createRef } from "preact";
 import { useEffect, useState } from "preact/hooks";
 import { IDeviceProps } from "../interface/device-props.interface.ts";
@@ -12,16 +12,16 @@ const deviceId = "63a8fee2c4efcc747bd6ee06_dht11";
 const serviceId = "Dev_data";
 
 export default function Device() {
-  let chart: ApexCharts;
+  // let chart: ApexCharts;
   const chartRef = createRef();
-  
+
   const chartOption = new Charts().getAreaChartOption();
 
-  const initChart = async () => {
-    const chartOption = new Charts().getAreaChartOption();
-    chart = new ApexCharts(chartRef.current, chartOption);
-    await chart.render();
-  };
+  // const initChart = async () => {
+  //   const chartOption = new Charts().getAreaChartOption();
+  //   chart = new ApexCharts(chartRef.current, chartOption);
+  //   await chart.render();
+  // };
 
   // initChart();
   
@@ -83,7 +83,7 @@ export default function Device() {
         </li>
       </ul>
       <div class="p-4 mx-auto max-w-screen-md">
-        <Chart options={chartOption} />
+        {/* <Chart options={chartOption} /> */}
       </div>
     </section>
   );

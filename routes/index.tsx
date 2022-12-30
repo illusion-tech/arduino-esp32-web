@@ -1,5 +1,5 @@
 import { Head } from "$fresh/runtime.ts";
-import Device from "../islands/device.tsx";
+import SignForm from "../islands/sign-form.tsx";
 
 export default function Home() {
   return (
@@ -7,7 +7,7 @@ export default function Home() {
       <Head>
         <title>Fresh App</title>
       </Head>
-      <Device />
+      <SignForm />
     </>
   );
 }

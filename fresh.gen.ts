@@ -6,7 +6,7 @@ import config from "./deno.json" assert { type: "json" };
 import * as $0 from "./routes/api/iot/[project]/devices/[device]/properties.ts";
 import * as $1 from "./routes/api/iot/aksk.ts";
 import * as $2 from "./routes/index.tsx";
-import * as $3 from "./routes/sign.tsx";
+import * as $3 from "./routes/main.tsx";
 import * as $$0 from "./islands/device.tsx";
 import * as $$1 from "./islands/sign-form.tsx";
 
@@ -15,7 +15,7 @@ const manifest = {
     "./routes/api/iot/[project]/devices/[device]/properties.ts": $0,
     "./routes/api/iot/aksk.ts": $1,
     "./routes/index.tsx": $2,
-    "./routes/sign.tsx": $3,
+    "./routes/main.tsx": $3,
   },
   islands: {
     "./islands/device.tsx": $$0,
