@@ -1,7 +1,10 @@
+// import ApexCharts, { ApexOptions } from "apexcharts";
+import Chart from "react-apexcharts";
+import { createRef } from "preact";
 import { useEffect, useState } from "preact/hooks";
 import { IDeviceProps } from "../interface/device-props.interface.ts";
 import { IChartData } from "../interface/chart-data.interface.ts";
-import Chart from "../components/chart.tsx";
+import { Charts } from "../tools/charts.ts";
 
 const endpoint = "http://localhost:8000";
 const projectId = "f6ec7524bd17497fafc9fa1ff8fdd8da";
@@ -9,6 +12,19 @@ const deviceId = "63a8fee2c4efcc747bd6ee06_dht11";
 const serviceId = "Dev_data";
 
 export default function Device() {
+  let chart: ApexCharts;
+  const chartRef = createRef();
+  
+  const chartOption = new Charts().getAreaChartOption();
+
+  const initChart = async () => {
+    const chartOption = new Charts().getAreaChartOption();
+    chart = new ApexCharts(chartRef.current, chartOption);
+    await chart.render();
+  };
+
+  // initChart();
+  
   const [temperature, setTemperature] = useState(0);
   const [humidity, setHumidity] = useState(0);
 
@@ -18,24 +34,12 @@ export default function Device() {
     temps: [],
     hums: [],
   };
-  const [chartUrl, setChartUrl] = useState("");
-
-  const stringify = (value: any) => {
-    return JSON.stringify(value);
-  };
 
   // 更新图表数据
   const updateDataSet = () => {
     chartData.temps.push(temperature);
     chartData.hums.push(humidity);
     chartData.labels.push("");
-
-    const searchParams = `labels=${
-      stringify(
-        chartData.labels,
-      )
-    }&temps=${stringify(chartData.temps)}&hums=${stringify(chartData.hums)}`;
-    setChartUrl(`/chart?${searchParams}`);
   };
 
   const setProperties = async () => {
@@ -79,7 +83,7 @@ export default function Device() {
         </li>
       </ul>
       <div class="p-4 mx-auto max-w-screen-md">
-        <Chart url={chartUrl} />
+        <Chart options={chartOption} />
       </div>
     </section>
   );

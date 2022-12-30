@@ -1,7 +1,8 @@
 {
   "imports": {
     "$fresh/": "https://deno.land/x/fresh@1.1.2/",
-    "$fresh_charts/": "https://deno.land/x/fresh_charts@0.2.1/",
+    "apexcharts": "https://esm.sh/apexcharts@3.36.3",
+    "react-apexcharts": "https://esm.sh/react-apexcharts@1.4.0",
     "preact": "https://esm.sh/preact@10.11.0",
     "preact/": "https://esm.sh/preact@10.11.0/",
     "preact-render-to-string": "https://esm.sh/*preact-render-to-string@5.2.4",
