@@ -1,15 +1,20 @@
 // deno-lint-ignore-file
 import { Handlers } from "$fresh/server.ts";
+import { IAkSkMessages } from "../../../../../../interface/ak-sk.interface.ts";
 import { IDeviceProps } from "../../../../../../interface/device-props.interface.ts";
 import { Signer } from "../../../../../../tools/signer.ts";
 
-
-//Set the AK/SK to sign and authenticate the request.
-const Key = "TM2ZMQVGYNMVAVPU2QLN";
-const Secret = "0AbAjSJznraA0MsZUezX0hoMcrV5hOHrZEgzzKDH";
-
 export const handler: Handlers<null> = {
   async GET(_, ctx) {
+    let aksk: IAkSkMessages;
+    const akskResponse = await fetch("http://localhost:8000/api/iot/aksk");
+    const akskResult = await akskResponse.json();
+    if (akskResult.success) {
+      aksk = akskResult.value;
+    } else {
+      throw Error("AK/SK is not exist!");
+    }
+
     const { project, device } = ctx.params;
     const url = new URL(_.url);
     const serviceId = url.searchParams.get("service_id") || "[]";
@@ -20,7 +25,7 @@ export const handler: Handlers<null> = {
       method: "GET",
     });
 
-    const signer = new Signer(Key, Secret);
+    const signer = new Signer(aksk.key, aksk.secret);
     await signer.sign(request);
 
     const response = await fetch(request);

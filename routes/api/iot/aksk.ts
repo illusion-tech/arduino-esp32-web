@@ -27,9 +27,11 @@ export const handler: Handlers<null> = {
     return new Promise<Response>((resolve) => {
       resolve(
         new Response(
-          akMessage
-            ? JSON.stringify({ success: true, value: akMessage })
-            : JSON.stringify({ success: false }),
+          JSON.stringify(
+            akMessage
+              ? { success: true, value: akMessage }
+              : { success: false }
+          ),
           {
             headers: { "Content-Type": "application/json" },
           },
