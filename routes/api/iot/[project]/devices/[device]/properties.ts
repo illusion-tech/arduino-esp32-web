@@ -11,11 +11,12 @@ const Secret = "0AbAjSJznraA0MsZUezX0hoMcrV5hOHrZEgzzKDH";
 export const handler: Handlers<null> = {
   async GET(_, ctx) {
     const { project, device } = ctx.params;
-    const serviceId = 'Dev_data';
-    const url =
+    const url = new URL(_.url);
+    const serviceId = url.searchParams.get("service_id") || "[]";
+    const iotUrl =
       `https://iotda.cn-north-4.myhuaweicloud.com/v5/iot/${project}/devices/${device}/properties?service_id=${serviceId}`;
 
-    const request = new Request(url, {
+    const request = new Request(iotUrl, {
       method: "GET",
     });
 
