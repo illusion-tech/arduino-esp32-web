@@ -1,3 +1,4 @@
+import { IS_BROWSER } from "$fresh/runtime.ts";
 import { useState } from "preact/hooks";
 
 const endpoint = "http://localhost:8000";
@@ -6,7 +7,7 @@ export default function SignForm() {
   fetch(`${endpoint}/api/iot/aksk`)
     .then((response) => response.json())
     .then((result) => {
-      if (result.success) window.location.href = "/main";
+      if (result.success && IS_BROWSER) window.location.href = "/main";
     });
 
   const [key, setKey] = useState("");

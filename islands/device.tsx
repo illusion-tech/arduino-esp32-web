@@ -31,7 +31,7 @@ export default function Device() {
       const resp = await fetch(
         `${endpoint}/api/iot/${projectId}/devices/${deviceId}/properties?service_id=${serviceId}`,
       );
-      const deviceProps: IDeviceProps = await resp.json();
+      const deviceProps: IDeviceProps = (await resp.json()).response.services[0].properties;
 
       setTemperature(deviceProps.Temperature);
       setHumidity(deviceProps.Humidity);
