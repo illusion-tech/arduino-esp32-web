@@ -17,7 +17,7 @@ export const handler: Handlers<null> = {
 
     const { project, device } = ctx.params;
     const url = new URL(_.url);
-    const serviceId = url.searchParams.get("service_id") || "[]";
+    const serviceId = url.searchParams.get("service_id") || "";
     const iotUrl =
       `${endpoint}/v5/iot/${project}/devices/${device}/properties?service_id=${serviceId}`;
 

@@ -1,13 +1,15 @@
 import { IS_BROWSER } from "$fresh/runtime.ts";
 import { useState } from "preact/hooks";
+import { IAkSkMessages } from "../interface/ak-sk.interface.ts";
 
 const endpoint = "http://localhost:8000";
 
 export default function SignForm() {
   fetch(`${endpoint}/api/iot/aksk`)
     .then((response) => response.json())
-    .then((result) => {
-      if (result.success && IS_BROWSER) window.location.href = "/main";
+    .then((result: IAkSkMessages) => {
+      const { key, secret } = result;
+      if (key && secret && IS_BROWSER) window.location.href = "/main";
     });
 
   const [key, setKey] = useState("");
@@ -17,15 +19,9 @@ export default function SignForm() {
     try {
       const resp = await fetch(`${endpoint}/api/iot/aksk`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
         body: JSON.stringify({ key, secret }),
       });
-      const result = await resp.json();
-      if (result.success) {
-        window.location.href = "/main";
-      }
+      if (resp.ok) window.location.href = "/main";
     } catch (error) {
       console.error(error);
     }

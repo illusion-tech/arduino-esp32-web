@@ -1,35 +1,17 @@
 import { Handlers } from "$fresh/server.ts";
-import { IAkSkMessages } from "../../../interface/ak-sk.interface.ts";
 
 export const handler: Handlers<null> = {
   async POST(req) {
-    const fileData = await req.json();
-    const encoder = new TextEncoder();
-    const data = encoder.encode(
-      JSON.stringify(fileData, null, "  ")
-    );
-    await Deno.writeFile("./aksk.json", data);
+    const file = await Deno.open("aksk.json", { create: true, write: true });
+    await req.body?.pipeTo(file.writable);
 
-    return new Response(JSON.stringify({ "success": true }), {
-      headers: { "Content-Type": "application/json" },
-    });
+    return new Response();
   },
 
   async GET(_) {
-    const module = await import("../../../aksk.json", {
-      assert: { type: "json" },
-    });
-    const { key, secret } = module.default as IAkSkMessages;
+    const file = await Deno.open("aksk.json");
+    const value = file.readable;
 
-    return new Response(
-      JSON.stringify(
-        key && secret
-          ? { success: true, value: { key, secret } }
-          : { success: false }
-      ),
-      {
-        headers: { "Content-Type": "application/json" },
-      },
-    );
+    return new Response(value);
   },
 };
