@@ -1,105 +1,107 @@
 import { ApexOptions } from "apexcharts";
 
-export class Charts {
-  constructor() {}
+interface DataSet {
+  labels: number[];
+  data: any[];
+}
 
-  getAreaChartOption(): ApexOptions {
-    return {
-      chart: {
-        animations: {
-          enabled: false,
-        },
-        fontFamily: "inherit",
-        foreColor: "inherit",
-        height: "100%",
-        type: "area",
-        toolbar: {
-          show: false,
-        },
-        zoom: {
-          enabled: false,
-        },
+/**
+ * 数据转换
+ * @returns ApexAxisChartSeries
+ */
+// TODO: 方法和类型优化
+export const transDataSetToSeries = (dataSet: DataSet) => {
+  if (dataSet.data.length === 0) return [];
+
+  const keys = Object.keys(dataSet.data[0]);
+  const series: any[] = keys.map((key) => {
+    return { name: key, data: [] };
+  });
+
+  dataSet.data.forEach((props, i) => {
+    keys.forEach((key) => {
+      series.find((_: any) => _.name === key).data.push({
+        x: dataSet.labels[i],
+        y: props[key],
+      });
+    });
+  });
+
+  return series;
+}
+
+export const getAreaChartOption = (): ApexOptions => {
+  return {
+    chart: {
+      fontFamily: "inherit",
+      foreColor: "inherit",
+      height: "100%",
+      type: "area",
+      toolbar: {
+        show: false,
       },
-      series: [
-        {
-          name: "Temperature",
-          data: [
-            { x: "0", y: 20 },
-            { x: "1", y: 21 },
-            { x: "2", y: 22 },
-            { x: "3", y: 20 },
-            { x: "4", y: 21 },
-            { x: "5", y: 20 },
-          ],
-        },
-        {
-          name: "Humidity",
-          data: [
-            { x: "0", y: 10 },
-            { x: "1", y: 8 },
-            { x: "2", y: 8 },
-            { x: "3", y: 4 },
-            { x: "4", y: 7 },
-            { x: "5", y: 9 },
-          ],
-        }
-      ],
-      colors: ["#64748B", "#94A3B8"],
-      dataLabels: {
+      zoom: {
         enabled: false,
       },
-      fill: {
-        colors: ["#64748B", "#94A3B8"],
-        opacity: 0.5,
+    },
+    series: [],
+    colors: ["#64748B", "#94A3B8"],
+    dataLabels: {
+      enabled: false,
+    },
+    fill: {
+      colors: ["#64748B", "#94A3B8"],
+      opacity: 0.5,
+    },
+    grid: {
+      show: false,
+      padding: {
+        bottom: -40,
+        left: 0,
+        right: 0,
       },
-      grid: {
+    },
+    legend: {
+      show: false,
+    },
+    stroke: {
+      curve: "smooth",
+      width: 2,
+    },
+    tooltip: {
+      followCursor: true,
+      theme: "dark",
+      x: {
+        format: "MM/dd hh:mm:ss",
+      },
+    },
+    xaxis: {
+      axisBorder: {
         show: false,
-        padding: {
-          bottom: -40,
-          left: 0,
-          right: 0,
+      },
+      labels: {
+        offsetY: -20,
+        rotate: 0,
+        style: {
+          colors: "#64748B",
         },
+        format: "hh:mm",
       },
-      legend: {
-        show: false,
-      },
-      stroke: {
-        curve: "smooth",
-        width: 2,
-      },
+      tickAmount: 3,
       tooltip: {
-        followCursor: true,
-        theme: "dark",
-        x: {
-          format: "MMM dd, yyyy",
+        enabled: false,
+      },
+      type: "datetime",
+    },
+    yaxis: {
+      labels: {
+        style: {
+          colors: "#64748B",
         },
       },
-      xaxis: {
-        axisBorder: {
-          show: false,
-        },
-        labels: {
-          offsetY: -20,
-          rotate: 0,
-          style: {
-            colors: "#64748B",
-          },
-        },
-        tickAmount: 3,
-        tooltip: {
-          enabled: false,
-        },
-        type: "datetime",
-      },
-      yaxis: {
-        labels: {
-          style: {
-            colors: "#64748B",
-          },
-        },
-        show: false,
-        tickAmount: 5,
-      },
-    };
-  }
+      show: false,
+      tickAmount: 5,
+      min: 0,
+    },
+  };
 }

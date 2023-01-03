@@ -1,6 +1,6 @@
 import { useEffect, useState } from "preact/hooks";
 import { IDeviceProps } from "../interface/device-props.interface.ts";
-import { IChartData } from "../interface/chart-data.interface.ts";
+import { IDeviceChart } from "../interface/chart-data.interface.ts";
 import Chart from "../components/chart.tsx";
 
 const endpoint = "http://localhost:8000";
@@ -9,21 +9,21 @@ const deviceId = "63a8fee2c4efcc747bd6ee06_dht11";
 const serviceId = "Dev_data";
 
 export default function Device() {
-  const [temperature, setTemperature] = useState(0);
-  const [humidity, setHumidity] = useState(0);
+  const [deviceProps, setProps] = useState<IDeviceProps>({
+    Temperature: 0,
+    Humidity: 0,
+  });
 
   // 图表数据集
-  const chartData: IChartData = {
+  const chartData: IDeviceChart = {
     labels: [],
-    temps: [],
-    hums: [],
+    data: [],
   };
 
   // 更新图表数据
-  const updateDataSet = () => {
-    chartData.temps.push(temperature);
-    chartData.hums.push(humidity);
-    chartData.labels.push("");
+  const updateDataSet = (props: IDeviceProps) => {
+    chartData.data.push(props);
+    chartData.labels.push(new Date().getTime());
   };
 
   const setProperties = async () => {
@@ -33,21 +33,19 @@ export default function Device() {
       );
       const deviceProps: IDeviceProps = (await resp.json()).response.services[0].properties;
 
-      setTemperature(deviceProps.Temperature);
-      setHumidity(deviceProps.Humidity);
-      updateDataSet();
+      setProps(deviceProps);
+      updateDataSet(deviceProps);
     } catch (error) {
       console.error(error);
     }
   };
 
   useEffect(() => {
-    setProperties();
     const timer = setInterval(() => {
       setProperties();
     }, 5000);
     return () => clearInterval(timer);
-  }, [temperature, humidity]);
+  }, []);
 
   return (
     <section className="p-10">
@@ -56,18 +54,18 @@ export default function Device() {
         <li className="w-40 h-24 p-6 rounded-lg bg-gray-100 ring-1 ring-gray-200">
           <h2 className="text-xs font-medium text-gray-500 mb-1">温度</h2>
           <span className="font-sans font-semibold text-gray-700 text-2xl">
-            {temperature} ℃
+            {deviceProps.Temperature} ℃
           </span>
         </li>
         <li className="w-40 h-24 p-6 rounded-lg bg-gray-100 ring-1 ring-gray-200">
           <h2 className="text-xs font-medium text-gray-500 mb-1">湿度</h2>
           <span className="font-sans font-semibold text-gray-700 text-2xl">
-            {humidity} %
+            {deviceProps.Humidity} %
           </span>
         </li>
       </ul>
-      <div class="p-4 mx-auto max-w-screen-md">
-        <Chart />
+      <div className="h-80 mt-4 mx-auto max-w-screen-md bg-gray-100 rounded-2xl overflow-hidden ring-1 ring-gray-200">
+        <Chart data={chartData}/>
       </div>
     </section>
   );
