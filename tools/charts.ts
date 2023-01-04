@@ -72,7 +72,9 @@ export const getAreaChartOption = (): ApexOptions => {
       followCursor: true,
       theme: "dark",
       x: {
-        format: "MM/dd hh:mm:ss",
+        formatter: (value) => {
+          return new Date(value + 3600 * 8).toLocaleString();
+        },
       },
     },
     xaxis: {
@@ -80,17 +82,21 @@ export const getAreaChartOption = (): ApexOptions => {
         show: false,
       },
       labels: {
-        offsetY: -20,
+        offsetY: -22,
+        offsetX: 20,
         rotate: 0,
         style: {
           colors: "#64748B",
         },
-        format: "hh:mm",
+        formatter: (_value: string, timestamp: number) => {
+          return new Date(timestamp + 3600 * 8).toLocaleTimeString().slice(0, 5);
+        },
       },
-      tickAmount: 3,
       tooltip: {
         enabled: false,
       },
+      tickAmount: 6,
+      tickPlacement: "between",
       type: "datetime",
     },
     yaxis: {
