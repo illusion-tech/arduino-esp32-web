@@ -48,24 +48,26 @@ export default function Device() {
   }, []);
 
   return (
-    <section className="p-10">
-      <h3 className="text-base font-semibold text-gray-900 mb-6">设备属性</h3>
-      <ul className="flex gap-4">
-        <li className="w-40 h-24 p-6 rounded-lg bg-gray-100 ring-1 ring-gray-200">
-          <h2 className="text-xs font-medium text-gray-500 mb-1">温度</h2>
-          <span className="font-sans font-semibold text-gray-700 text-2xl">
-            {deviceProps.Temperature} ℃
-          </span>
-        </li>
-        <li className="w-40 h-24 p-6 rounded-lg bg-gray-100 ring-1 ring-gray-200">
-          <h2 className="text-xs font-medium text-gray-500 mb-1">湿度</h2>
-          <span className="font-sans font-semibold text-gray-700 text-2xl">
-            {deviceProps.Humidity} %
-          </span>
-        </li>
-      </ul>
-      <div className="h-80 mt-4 mx-auto max-w-screen-md bg-gray-100 rounded-2xl overflow-hidden ring-1 ring-gray-200">
-        <Chart data={chartData}/>
+    <section className="h-screen w-full p-10 bg-gray-100">
+      <div className="mx-auto rounded-2xl overflow-hidden bg-white ring-1 ring-gray-200">
+        <h3 className="text-base text-gray-900 p-6 pb-0">设备实时属性</h3>
+        <ul className="flex gap-4">
+          <li className="w-40 h-20 p-6 rounded-lg">
+            <h2 className="text-xs font-medium text-gray-500 mb-1">温度</h2>
+            <span className="font-sans font-semibold text-gray-700 text-4xl">
+              {deviceProps.Temperature} ℃
+            </span>
+          </li>
+          <li className="w-40 h-20 p-6 rounded-lg">
+            <h2 className="text-xs font-medium text-gray-500 mb-1">湿度</h2>
+            <span className="font-sans font-semibold text-gray-700 text-4xl">
+              {deviceProps.Humidity} %
+            </span>
+          </li>
+        </ul>
+        <div className="h-80 mt-4 w-full">
+          <Chart data={chartData}/>
+        </div>
       </div>
     </section>
   );
