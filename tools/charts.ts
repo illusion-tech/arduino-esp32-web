@@ -1,6 +1,13 @@
 import { ApexOptions } from "apexcharts";
 
 type ApexChartSeries = NonNullable<ApexOptions["series"]>;
+type ApexChartData = Exclude<
+  Exclude<
+    ApexChartSeries extends Array<infer T> ? T : never,
+    number
+  >["data"] extends Array<infer T> ? T : never,
+  unknown[] | null | number
+>;
 type Props = Record<string, string | number>;
 
 interface DataSet {
@@ -22,7 +29,8 @@ export const convertDataSetToSeries = (dataSet: DataSet): ApexChartSeries => {
 
   dataSet.data.forEach((props, i) => {
     keys.forEach((key) => {
-      series.find((_) => _.name === key)!.data.push({
+      const data = series.find((_) => _.name === key)?.data as unknown as ApexChartData[];
+      data.push({
         x: dataSet.labels[i],
         y: props[key],
       });
