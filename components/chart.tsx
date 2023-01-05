@@ -15,7 +15,7 @@ export default function Chart(props: { data: IDeviceChart }) {
   }
 
   useEffect(() => {
-    import("apexcharts").then((module: any) =>  {
+    import("apexcharts").then((module) => {
       const ApexCharts = module.default;
       const chartOption = getAreaChartOption();
       const apexChart = new ApexCharts(chartRef.current, chartOption);
@@ -24,7 +24,5 @@ export default function Chart(props: { data: IDeviceChart }) {
     });
   }, []);
 
-  return (
-    <div ref={chartRef}></div>
-  );
+  return <div ref={chartRef} />;
 }
