@@ -1,26 +1,28 @@
 import { ApexOptions } from "apexcharts";
 
+type ApexChartSeries = NonNullable<ApexOptions["series"]>;
+type Props = Record<string, string | number>;
+
 interface DataSet {
   labels: number[];
-  data: any[];
+  data: Props[];
 }
 
 /**
  * 数据转换
  * @returns ApexAxisChartSeries
  */
-// TODO: 方法和类型优化
-export const transDataSetToSeries = (dataSet: DataSet) => {
+export const convertDataSetToSeries = (dataSet: DataSet): ApexChartSeries => {
   if (dataSet.data.length === 0) return [];
 
   const keys = Object.keys(dataSet.data[0]);
-  const series: any[] = keys.map((key) => {
+  const series: ApexChartSeries = keys.map((key) => {
     return { name: key, data: [] };
   });
 
   dataSet.data.forEach((props, i) => {
     keys.forEach((key) => {
-      series.find((_: any) => _.name === key).data.push({
+      series.find((_) => _.name === key)!.data.push({
         x: dataSet.labels[i],
         y: props[key],
       });

@@ -1,7 +1,7 @@
 import { createRef } from "preact";
 import { useEffect, useState } from "preact/hooks";
 import { IDeviceChart } from "../interface/chart-data.interface.ts";
-import { getAreaChartOption, transDataSetToSeries } from "../tools/charts.ts";
+import { getAreaChartOption, convertDataSetToSeries } from "../tools/charts.ts";
 
 export default function Chart(props: { data: IDeviceChart }) {
   const [chartData, setData] = useState<IDeviceChart>(props.data);
@@ -10,7 +10,7 @@ export default function Chart(props: { data: IDeviceChart }) {
   const chartRef = createRef();
 
   if (chart) {
-    const series = transDataSetToSeries(chartData);
+    const series = convertDataSetToSeries(chartData);
     chart.updateSeries(series);
   }
 

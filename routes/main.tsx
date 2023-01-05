@@ -1,7 +1,7 @@
 import { Head } from "$fresh/runtime.ts";
 import Device from "../islands/device.tsx";
 
-export default function Sign() {
+export default function Main() {
   return (
     <>
       <Head>

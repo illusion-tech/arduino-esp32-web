@@ -9,9 +9,8 @@ export const handler: Handlers<null> = {
   },
 
   async GET(_) {
-    const file = await Deno.open("aksk.json");
-    const value = file.readable;
+    const file = await Deno.open("aksk.json", { create: true, write: true });
 
-    return new Response(value);
+    return new Response(file.readable);
   },
 };
