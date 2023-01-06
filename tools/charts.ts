@@ -1,4 +1,5 @@
 import { ApexOptions } from "apexcharts";
+import { DataSet } from "../interface/chart-data.interface.ts";
 
 type ApexChartSeries = NonNullable<ApexOptions["series"]>;
 type ApexChartData = Exclude<
@@ -8,12 +9,6 @@ type ApexChartData = Exclude<
   >["data"] extends Array<infer T> ? T : never,
   unknown[] | null | number
 >;
-type Props = Record<string, string | number>;
-
-interface DataSet {
-  labels: number[];
-  data: Props[];
-}
 
 /**
  * 数据转换
