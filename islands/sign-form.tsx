@@ -1,6 +1,6 @@
 import { IS_BROWSER } from "$fresh/runtime.ts";
+import { IAkSkMessages } from "@interface/ak-sk.interface.ts";
 import { useState } from "preact/hooks";
-import { IAkSkMessages } from "../interface/ak-sk.interface.ts";
 
 const endpoint = "http://localhost:8000";
 

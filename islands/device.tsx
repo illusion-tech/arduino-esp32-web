@@ -1,6 +1,6 @@
+import { IDeviceChart } from "@interface/chart-data.interface.ts";
+import { IDeviceProps } from "@interface/device-props.interface.ts";
 import { useEffect, useState } from "preact/hooks";
-import { IDeviceProps } from "../interface/device-props.interface.ts";
-import { IDeviceChart } from "../interface/chart-data.interface.ts";
 import Chart from "../components/chart.tsx";
 
 const endpoint = "http://localhost:8000";

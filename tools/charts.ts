@@ -1,5 +1,5 @@
+import { DataSet } from "@interface/chart-data.interface.ts";
 import { ApexOptions } from "apexcharts";
-import { DataSet } from "../interface/chart-data.interface.ts";
 
 type ApexChartSeries = NonNullable<ApexOptions["series"]>;
 type ApexChartData = Exclude<

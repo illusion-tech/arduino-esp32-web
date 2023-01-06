@@ -1,8 +1,8 @@
+import type { IDeviceChart } from "@interface/chart-data.interface.ts";
+import { convertDataSetToSeries, getAreaChartOption } from "@tools/charts.ts";
 import type { default as ApexCharts } from "apexcharts";
 import { createRef } from "preact";
 import { useEffect, useState } from "preact/hooks";
-import type { IDeviceChart } from "../interface/chart-data.interface.ts";
-import { convertDataSetToSeries, getAreaChartOption } from "../tools/charts.ts";
 
 export default function Chart(props: { data: IDeviceChart }) {
   const [chartData, setData] = useState<IDeviceChart>(props.data);

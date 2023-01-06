@@ -1,7 +1,7 @@
 // deno-lint-ignore-file
 import { Handlers } from "$fresh/server.ts";
-import { IAkSkMessages } from "../../../../../../interface/ak-sk.interface.ts";
-import { Signer } from "../../../../../../tools/signer.ts";
+import { IAkSkMessages } from "@interface/ak-sk.interface.ts";
+import { Signer } from "@tools/signer.ts";
 
 const endpoint = "https://iotda.cn-north-4.myhuaweicloud.com";
 
