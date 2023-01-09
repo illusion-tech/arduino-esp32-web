@@ -3,8 +3,8 @@
 // This file is automatically updated during development when running `dev.ts`.
 
 import config from "./deno.json" assert { type: "json" };
-import * as $0 from "./routes/api/iot/[project]/devices/[device]/properties.ts";
-import * as $1 from "./routes/api/iot/aksk.ts";
+import * as $0 from "./routes/api/iot/aksk.ts";
+import * as $1 from "./routes/api/iot/devices/[deviceId]/properties.ts";
 import * as $2 from "./routes/index.tsx";
 import * as $3 from "./routes/main.tsx";
 import * as $$0 from "./islands/device.tsx";
@@ -12,8 +12,8 @@ import * as $$1 from "./islands/sign-form.tsx";
 
 const manifest = {
   routes: {
-    "./routes/api/iot/[project]/devices/[device]/properties.ts": $0,
-    "./routes/api/iot/aksk.ts": $1,
+    "./routes/api/iot/aksk.ts": $0,
+    "./routes/api/iot/devices/[deviceId]/properties.ts": $1,
     "./routes/index.tsx": $2,
     "./routes/main.tsx": $3,
   },

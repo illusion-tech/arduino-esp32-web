@@ -2,12 +2,15 @@
 import { Handlers } from "$fresh/server.ts";
 import { IAkSkMessages } from "@interface/ak-sk.interface.ts";
 import { Signer } from "@tools/signer.ts";
+import { loadSync } from "config/mod.ts";
 
-const endpoint = "https://iotda.cn-north-4.myhuaweicloud.com";
+const config = loadSync();
+const endpoint = config["ENDPOINT"];
+const projectId = config["PROJECTID"];
 
 export const handler: Handlers<null> = {
   async GET(_, ctx) {
-    const module = await import("../../../../../../aksk.json", {
+    const module = await import("../../../../../aksk.json", {
       assert: { type: "json" },
     });
     const { key, secret } = module.default as IAkSkMessages;
@@ -15,11 +18,11 @@ export const handler: Handlers<null> = {
       throw Error("AK/SK is not exist!");
     }
 
-    const { project, device } = ctx.params;
+    const { deviceId } = ctx.params;
     const url = new URL(_.url);
     const serviceId = url.searchParams.get("service_id") || "";
     const iotUrl =
-      `${endpoint}/v5/iot/${project}/devices/${device}/properties?service_id=${serviceId}`;
+      `${endpoint}/v5/iot/${projectId}/devices/${deviceId}/properties?service_id=${serviceId}`;
 
     const request = new Request(iotUrl, {
       method: "GET",

@@ -4,8 +4,9 @@ import { useEffect, useState } from "preact/hooks";
 import Chart from "../components/chart.tsx";
 
 const endpoint = "http://localhost:8000";
-const projectId = "f6ec7524bd17497fafc9fa1ff8fdd8da";
+// 设备 ID
 const deviceId = "63a8fee2c4efcc747bd6ee06_dht11";
+// 服务 ID
 const serviceId = "Dev_data";
 
 export default function Device() {
@@ -29,7 +30,7 @@ export default function Device() {
   const setProperties = async () => {
     try {
       const resp = await fetch(
-        `${endpoint}/api/iot/${projectId}/devices/${deviceId}/properties?service_id=${serviceId}`,
+        `${endpoint}/api/iot/devices/${deviceId}/properties?service_id=${serviceId}`,
       );
       const deviceProps: IDeviceProps = (await resp.json()).response.services[0].properties;
 
