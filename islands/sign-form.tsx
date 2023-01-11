@@ -2,10 +2,10 @@ import { IS_BROWSER } from "$fresh/runtime.ts";
 import { IAkSkMessages } from "@interface/ak-sk.interface.ts";
 import { useState } from "preact/hooks";
 
-const endpoint = "http://localhost:8000";
+const apiEndpoint = "http://localhost:8000";
 
 export default function SignForm() {
-  fetch(`${endpoint}/api/iot/aksk`)
+  fetch(`${apiEndpoint}/api/iot/aksk`)
     .then((response) => response.json())
     .then((result: IAkSkMessages) => {
       const { key, secret } = result;
@@ -18,7 +18,7 @@ export default function SignForm() {
 
   const confirm = async () => {
     try {
-      const resp = await fetch(`${endpoint}/api/iot/aksk`, {
+      const resp = await fetch(`${apiEndpoint}/api/iot/aksk`, {
         method: "POST",
         body: JSON.stringify({ key, secret }),
       });

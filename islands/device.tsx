@@ -3,16 +3,18 @@ import { IDeviceProps } from "@interface/device-props.interface.ts";
 import { useEffect, useState } from "preact/hooks";
 import Chart from "../components/chart.tsx";
 
-const endpoint = "http://localhost:8000";
 // 设备 ID
-const deviceId = "63a8fee2c4efcc747bd6ee06_dht11";
+const deviceId = "63b687c5b7768d66eb705b98_0001";
 // 服务 ID
-const serviceId = "Dev_data";
+const serviceId = "service01";
+
+const apiEndpoint = "http://localhost:8000";
 
 export default function Device() {
   const [deviceProps, setProps] = useState<IDeviceProps>({
-    Temperature: 0,
-    Humidity: 0,
+    voltage: 0,
+    chargeCurrent: 0,
+    dischargeCurrent: 0,
   });
 
   // 图表数据集
@@ -30,10 +32,14 @@ export default function Device() {
   const setProperties = async () => {
     try {
       const resp = await fetch(
-        `${endpoint}/api/iot/devices/${deviceId}/properties?service_id=${serviceId}`,
+        `${apiEndpoint}/api/iot/devices/${deviceId}/properties?service_id=${serviceId}`,
       );
-      const deviceProps: IDeviceProps = (await resp.json()).response.services[0].properties;
-
+      const { properties } = (await resp.json()).response.services[0];
+      const deviceProps: IDeviceProps = {
+        voltage: properties.voltage,
+        chargeCurrent: properties.charge_current,
+        dischargeCurrent: properties.discharge_current,
+      };
       setProps(deviceProps);
       updateDataSet(deviceProps);
     } catch (error) {
@@ -54,15 +60,21 @@ export default function Device() {
         <h3 className="text-base text-gray-900 p-6 pb-0">设备实时属性</h3>
         <ul className="flex gap-4">
           <li className="w-40 h-20 p-6 rounded-lg">
-            <h2 className="text-xs font-medium text-gray-500 mb-1">温度</h2>
+            <h2 className="text-xs font-medium text-gray-500 mb-1">当前电压</h2>
             <span className="font-sans font-semibold text-gray-700 text-4xl">
-              {deviceProps.Temperature} ℃
+              {deviceProps.voltage} V
             </span>
           </li>
           <li className="w-40 h-20 p-6 rounded-lg">
-            <h2 className="text-xs font-medium text-gray-500 mb-1">湿度</h2>
+            <h2 className="text-xs font-medium text-gray-500 mb-1">充电电流</h2>
             <span className="font-sans font-semibold text-gray-700 text-4xl">
-              {deviceProps.Humidity} %
+              {deviceProps.chargeCurrent} A
+            </span>
+          </li>
+          <li className="w-40 h-20 p-6 rounded-lg">
+            <h2 className="text-xs font-medium text-gray-500 mb-1">放电电流</h2>
+            <span className="font-sans font-semibold text-gray-700 text-4xl">
+              {deviceProps.dischargeCurrent} A
             </span>
           </li>
         </ul>

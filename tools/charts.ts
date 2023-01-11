@@ -50,12 +50,10 @@ export const getAreaChartOption = (): ApexOptions => {
       },
     },
     series: [],
-    colors: ["#64748B", "#94A3B8"],
     dataLabels: {
       enabled: false,
     },
     fill: {
-      colors: ["#64748B", "#94A3B8"],
       opacity: 0.5,
     },
     grid: {
