@@ -1,11 +1,21 @@
-# api-signer
+# arduino-esp32-web
 
-### Usage
+## Usage
 
-Start the project:
+Using Shell (macOS and Linux):
+
+```
+./start.sh
+```
+
+Using PowerShell (Windows):
+
+```
+./start.ps1
+```
+
+Developing:
 
 ```
 deno task start
 ```
-
-This will watch the project directory and restart as necessary.
